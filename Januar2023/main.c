@@ -3,6 +3,24 @@
 #include <string.h>
 #include <stdlib.h>
 
+typedef struct cvor CVOR;
+
+typedef struct cvor* PCVOR;
+
+struct cvor {
+	PRIJAVA prijava;
+	PCVOR sledeci;
+};
+
+typedef struct prijava {
+
+	int broj_indeksa;
+	int godina_upisa;
+	int sifra_predmeta;
+	int ocena;
+
+}PRIJAVA;
+
 void procitaj_datoteku(char* naziv, int infor[][4], int* n);
 
 void ispisiMat(int info[][4], int n) {
@@ -18,6 +36,8 @@ double prosecna_ocena_predmeta(int sifra_predmeta, int infor[][4], int n);
 
 void prikazi(int sifra_predmeta, int info[][4], int n);
 
+void dodaj(PCVOR* glava, int broj_indeksa, int godina_upisa, int ocena, int sifra_predmeta);
+
 int main() {
 
 	int info[20][4];
@@ -25,7 +45,7 @@ int main() {
 	procitaj_datoteku("ispiti.txt", info, &n);
 	ispisiMat(info, n);
 	//printf("%.2lf\n", prosecna_ocena_predmeta(2220, info, n));
-	prikazi(1113, info, n);
+	//prikazi(1113, info, n);
 }
 
 void procitaj_datoteku(char* naziv, int info[][4], int* n) {
@@ -80,5 +100,31 @@ void prikazi(int sifra_predmeta, int info[][4], int n) {
 		}
 	}
 
+
+}
+
+void dodaj(PCVOR* glava, int broj_indeksa, int godina_upisa, int ocena, int sifra_predmeta) {
+
+	PCVOR novi = malloc(sizeof(CVOR));
+	PRIJAVA p;
+	p.broj_indeksa = broj_indeksa;
+	p.godina_upisa = godina_upisa;
+	p.ocena = ocena;
+	p.sifra_predmeta = sifra_predmeta;
+
+	novi->prijava = p;
+	novi->sledeci = NULL;
+
+	if (*glava == NULL)
+	{
+		*glava = novi;
+		return;
+	}
+
+	PCVOR temp = *glava;
+	while (temp->sledeci != NULL) {
+		temp = temp->sledeci;
+	}
+	temp->sledeci = novi;
 
 }
