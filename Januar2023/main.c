@@ -11,10 +11,12 @@ void ispisiMat(int info[][4], int n) {
 	{
 		printf("%d %d %d %d\n", info[i][0], info[i][1], info[i][2], info[i][3]);
 	}
-
+	printf("\n");
 }
 
 double prosecna_ocena_predmeta(int sifra_predmeta, int infor[][4], int n);
+
+void prikazi(int sifra_predmeta, int info[][4], int n);
 
 int main() {
 
@@ -22,8 +24,8 @@ int main() {
 	int n = 0;
 	procitaj_datoteku("ispiti.txt", info, &n);
 	ispisiMat(info, n);
-	printf("%.2lf\n", prosecna_ocena_predmeta(2220, info, n));
-
+	//printf("%.2lf\n", prosecna_ocena_predmeta(2220, info, n));
+	prikazi(1113, info, n);
 }
 
 void procitaj_datoteku(char* naziv, int info[][4], int* n) {
@@ -67,3 +69,16 @@ double prosecna_ocena_predmeta(int sifra_predmeta, int info[][4], int n) {
 
 }
 
+void prikazi(int sifra_predmeta, int info[][4], int n) {
+	int brojac = 1;
+	for (int i = 0; i < n; i++)
+	{
+		if (info[i][2] == sifra_predmeta && info[i][3] > 5 && info[i][3] <= 10)
+		{
+			printf("%d. %d/%d %d %d\n", brojac, info[i][1], info[i][0], sifra_predmeta, info[i][3]);
+				brojac++;
+		}
+	}
+
+
+}
