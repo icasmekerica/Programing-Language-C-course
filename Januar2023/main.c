@@ -3,15 +3,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-typedef struct cvor CVOR;
-
-typedef struct cvor* PCVOR;
-
-struct cvor {
-	PRIJAVA prijava;
-	PCVOR sledeci;
-};
-
 typedef struct prijava {
 
 	int broj_indeksa;
@@ -20,6 +11,15 @@ typedef struct prijava {
 	int ocena;
 
 }PRIJAVA;
+
+typedef struct cvor CVOR;
+
+typedef struct cvor* PCVOR;
+
+struct cvor {
+	PRIJAVA prijava;
+	PCVOR sledeci;
+};
 
 void procitaj_datoteku(char* naziv, int infor[][4], int* n);
 
@@ -32,11 +32,25 @@ void ispisiMat(int info[][4], int n) {
 	printf("\n");
 }
 
+void ispisiListu(PCVOR glava) {
+
+	while (glava != NULL) {
+		printf("%d/%d %d ==> %d \n", glava->prijava.broj_indeksa, glava->prijava.godina_upisa,
+			glava->prijava.sifra_predmeta, glava->prijava.ocena);
+			glava = glava->sledeci;
+	}
+	printf("\n");
+}
+
 double prosecna_ocena_predmeta(int sifra_predmeta, int infor[][4], int n);
 
 void prikazi(int sifra_predmeta, int info[][4], int n);
 
 void dodaj(PCVOR* glava, int broj_indeksa, int godina_upisa, int ocena, int sifra_predmeta);
+
+int da_li_postoji(PCVOR glava, int broj_indeksa, int godina_upisa, int sifra_predmeta);
+
+void kreiraj_listu(int info[][4], int godina_upisa, PCVOR* glava, int n);
 
 int main() {
 
@@ -46,6 +60,17 @@ int main() {
 	ispisiMat(info, n);
 	//printf("%.2lf\n", prosecna_ocena_predmeta(2220, info, n));
 	//prikazi(1113, info, n);
+
+	PCVOR* glava = NULL;
+	/*dodaj(&glava, 252, 2018, 10, 1113);
+	dodaj(&glava, 25, 2016, 7, 1113);
+	dodaj(&glava, 52, 2018, 8, 1113);
+	dodaj(&glava, 2152, 2019, 9, 1113);*/
+	//ispisiListu(glava);
+	//printf("%d", da_li_postoji(glava, 252, 2018, 2211));
+	kreiraj_listu(info, 2019, &glava, n);
+	ispisiListu(glava);
+
 }
 
 void procitaj_datoteku(char* naziv, int info[][4], int* n) {
@@ -126,5 +151,41 @@ void dodaj(PCVOR* glava, int broj_indeksa, int godina_upisa, int ocena, int sifr
 		temp = temp->sledeci;
 	}
 	temp->sledeci = novi;
+
+}
+
+int da_li_postoji(PCVOR glava, int broj_indeksa, int godina_upisa, int sifra_predmeta) {
+
+	while (glava != NULL) {
+
+		if (glava->prijava.broj_indeksa == broj_indeksa &&
+			glava->prijava.godina_upisa == godina_upisa &&
+			glava->prijava.sifra_predmeta == sifra_predmeta &&
+			glava->prijava.ocena >= 6 &&
+			glava->prijava.ocena <= 10)
+		{
+			return glava->prijava.ocena;
+		}
+		glava = glava->sledeci;
+	}
+	return -1;
+}
+
+void kreiraj_listu(int info[][4], int godina_upisa, PCVOR* glava, int n) {
+
+	for (int i = 0; i < n; i++)
+	{
+		int trenBroj = info[i][0];
+		int trenPred = info[i][2];
+		int trenOcena = info[i][3];
+
+		if (info[i][1] == godina_upisa)
+		{
+			if (da_li_postoji(*glava, trenBroj, godina_upisa, trenPred) == -1)
+			{
+				dodaj(glava, trenBroj, godina_upisa, trenOcena, trenPred);
+			}
+		}
+	}
 
 }
