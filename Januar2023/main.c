@@ -54,6 +54,8 @@ void kreiraj_listu(int info[][4], int godina_upisa, PCVOR* glava, int n);
 
 void sortiraj(PCVOR glava);
 
+int proveri_Sifru(int sifra_predmeta);
+
 int main() {
 
 	int info[20][4];
@@ -74,6 +76,9 @@ int main() {
 	ispisiListu(glava);
 	sortiraj(glava);
 	ispisiListu(glava);
+
+	printf("%d \n", proveri_Sifru(1120));
+	printf("%d \n", proveri_Sifru(1121));
 
 }
 
@@ -211,4 +216,27 @@ void sortiraj(PCVOR glava)
 
 	}
 
+}
+
+int proveri_Sifru(int sifra_predmeta) {
+
+	int posledna_sifra = sifra_predmeta % 10;
+	int suma = 0;
+
+	while (sifra_predmeta != 0) {
+
+		int broj = sifra_predmeta % 10;
+		suma += broj;
+		sifra_predmeta = sifra_predmeta / 10;
+	}
+
+	int sumaBezPoslednje = suma - posledna_sifra;
+	if (sumaBezPoslednje % 2 == 0 && posledna_sifra == 0)
+	{
+		return 1;
+	} else if (sumaBezPoslednje % 2 == 1 && posledna_sifra == 1)
+	{
+		return 1;
+	}
+	return 0;
 }
