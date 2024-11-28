@@ -52,6 +52,8 @@ int da_li_postoji(PCVOR glava, int broj_indeksa, int godina_upisa, int sifra_pre
 
 void kreiraj_listu(int info[][4], int godina_upisa, PCVOR* glava, int n);
 
+void sortiraj(PCVOR glava);
+
 int main() {
 
 	int info[20][4];
@@ -69,6 +71,8 @@ int main() {
 	//ispisiListu(glava);
 	//printf("%d", da_li_postoji(glava, 252, 2018, 2211));
 	kreiraj_listu(info, 2019, &glava, n);
+	ispisiListu(glava);
+	sortiraj(glava);
 	ispisiListu(glava);
 
 }
@@ -186,6 +190,25 @@ void kreiraj_listu(int info[][4], int godina_upisa, PCVOR* glava, int n) {
 				dodaj(glava, trenBroj, godina_upisa, trenOcena, trenPred);
 			}
 		}
+	}
+
+}
+
+void sortiraj(PCVOR glava)
+{
+	for (PCVOR i = glava; i != NULL; i = i->sledeci)
+	{
+		for (PCVOR j = i; j != NULL; j = j->sledeci)
+		{
+			if (i->prijava.ocena < j->prijava.ocena)
+			{
+				PRIJAVA temp = i->prijava;
+				i->prijava = j->prijava;
+				j->prijava = temp;
+			}
+
+		}
+
 	}
 
 }
