@@ -1,0 +1,6 @@
+﻿  main.c
+C:\Users\ICA\source\repos\Jul2023G1\main.c(143,3): warning C4013: 'gets' undefined; assuming extern returning int
+C:\Users\ICA\source\repos\Jul2023G1\main.c(147,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\ICA\source\repos\Jul2023G1\main.c(196,3): warning C4033: 'ucitaj_pitanja_iz_bin_dat' must return a value
+C:\Users\ICA\source\repos\Jul2023G1\main.c(208,1): warning C4715: 'ucitaj_pitanja_iz_bin_dat': not all control paths return a value
+  Jul2023G1.vcxproj -> C:\Users\ICA\source\repos\Jul2023G1\x64\Debug\Jul2023G1.exe
